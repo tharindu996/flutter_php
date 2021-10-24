@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:phpmysqlcrud/AddEditPage.dart';
@@ -31,10 +30,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
   Future getData()async{
-    var url = 'http://192.168.1.104/php-mysql-flutter-crud/read.php';
-    var response = await http.get(url);
+    var url = 'http://192.168.1.100/php-mysql-flutter-crud/read.php';
+    var response = await http.get(Uri.parse(url));
     return json.decode(response.body);
   }
 
@@ -66,21 +64,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ? ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context,index){
-                List list = snapshot.data;
+                Object list = snapshot.data;
                 return ListTile(
                   leading: GestureDetector(child: Icon(Icons.edit),
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => AddEditPage(list: list,index: index,),),);
                     debugPrint('Edit Clicked');
                   },),
-                  title: Text(list[index]['lastname']),
-                  subtitle: Text(list[index]['phone']),
+                  title: Text(snapshot.data[index]['lastname']),
+                  subtitle: Text(snapshot.data[index]['phone']),
                   trailing: GestureDetector(child: Icon(Icons.delete),
                     onTap: (){
                       setState(() {
-                        var url = 'http://192.168.1.104/php-mysql-flutter-crud/delete.php';
-                        http.post(url,body: {
-                          'id' : list[index]['id'],
+                        var url = 'http://192.168.1.100/php-mysql-flutter-crud/delete.php';
+                        http.post(Uri.parse(url),body: {
+                          'id' : snapshot.data[index]['id'],
                         });
                       });
                       debugPrint('delete Clicked');

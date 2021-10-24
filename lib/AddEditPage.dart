@@ -5,7 +5,7 @@ import 'package:phpmysqlcrud/main.dart';
 class AddEditPage extends StatefulWidget {
   final List list;
   final int index;
-  AddEditPage({this.list,this.index});
+  AddEditPage({ this.list, this.index});
   @override
   _AddEditPageState createState() => _AddEditPageState();
 }
@@ -23,7 +23,7 @@ class _AddEditPageState extends State<AddEditPage> {
   addUpdateData(){
     if(editMode){
       var url = 'http://192.168.1.104/php-mysql-flutter-crud/edit.php';
-      http.post(url,body: {
+      http.post(Uri.parse(url),body: {
         'id' : widget.list[widget.index]['id'],
         'fistname' : firstName.text,
         'lastname' : lastName.text,
@@ -32,7 +32,7 @@ class _AddEditPageState extends State<AddEditPage> {
       });
     }else{
       var url = 'http://192.168.1.104/php-mysql-flutter-crud/add.php';
-      http.post(url,body: {
+      http.post(Uri.parse(url),body: {
         'fistname' : firstName.text,
         'lastname' : lastName.text,
         'phone' : phone.text,
