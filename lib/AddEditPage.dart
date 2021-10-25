@@ -5,7 +5,8 @@ import 'package:phpmysqlcrud/main.dart';
 class AddEditPage extends StatefulWidget {
   final List list;
   final int index;
-  AddEditPage({ this.list, this.index});
+  final String id;
+  AddEditPage({ this.list, this.index,this.id});
   @override
   _AddEditPageState createState() => _AddEditPageState();
 }
@@ -22,7 +23,7 @@ class _AddEditPageState extends State<AddEditPage> {
 
   addUpdateData(){
     if(editMode){
-      var url = 'http://192.168.1.104/php-mysql-flutter-crud/edit.php';
+      var url = 'https://iciest-pine.000webhostapp.com/edit.php';
       http.post(Uri.parse(url),body: {
         'id' : widget.list[widget.index]['id'],
         'fistname' : firstName.text,
@@ -31,7 +32,7 @@ class _AddEditPageState extends State<AddEditPage> {
         'address' : address.text,
       });
     }else{
-      var url = 'http://192.168.1.104/php-mysql-flutter-crud/add.php';
+      var url = 'https://iciest-pine.000webhostapp.com/add.php';
       http.post(Uri.parse(url),body: {
         'fistname' : firstName.text,
         'lastname' : lastName.text,
@@ -46,6 +47,7 @@ class _AddEditPageState extends State<AddEditPage> {
   @override
   void initState() {
     super.initState();
+
     if(widget.index != null){
       editMode = true;
       firstName.text = widget.list[widget.index]['fistname'];
@@ -64,6 +66,7 @@ class _AddEditPageState extends State<AddEditPage> {
       body: ListView(
         children: <Widget>[
 
+         
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -109,11 +112,45 @@ class _AddEditPageState extends State<AddEditPage> {
                 setState(() {
                   addUpdateData();
                 });
+                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text(
+                                        "Item added"),
+                                  ),
+                                );
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(),),);
                 debugPrint('Clicked RaisedButton Button');
               },
               color: Colors.blue,
               child: Text(editMode ? 'Update' :'Save',style: TextStyle(color: Colors.white),),
+            ),
+          ),
+          Padding(padding: EdgeInsets.all(8),
+            child: RaisedButton(
+              onPressed: (){
+                setState(() {
+                              var url = 'https://iciest-pine.000webhostapp.com/delete.php';
+                              http.post(Uri.parse(url),body: {
+                                'id' : widget.list[widget.index]['id'],
+                              });
+
+
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                        "Item deleted"),
+                                  ),
+                                );
+                            debugPrint('delete Clicked');
+               // Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(),),);
+               Navigator.pop(context);
+                debugPrint('Clicked RaisedButton Button');
+              },
+              color: Colors.red,
+              child: Text('Delete',style: TextStyle(color: Colors.white),),
             ),
           ),
         ],
