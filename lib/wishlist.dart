@@ -29,6 +29,7 @@ class _WishListState extends State<WishList> {
     return Scaffold(
       
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Wishlist',style: TextStyle(
           fontWeight: FontWeight.bold
         )),
