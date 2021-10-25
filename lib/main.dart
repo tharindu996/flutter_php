@@ -57,7 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => WishList(),),);
           }, icon: Icon(Icons.shopping_cart))
         ],
-        title: Text('Php Mysql Crud',),
+        title: Text('DYNMAC',style: TextStyle(
+          fontWeight: FontWeight.bold
+        ),),
         centerTitle: true,
 
       ),
